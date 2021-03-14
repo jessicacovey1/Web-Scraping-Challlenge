@@ -8,6 +8,7 @@ def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
     path = {"executable_path": "chromedriver"}
     browser = Browser("chrome", **path, headless=True)
+    return browser
 
 
 def scrape_info():
@@ -42,7 +43,7 @@ def scrape_info():
     featured_image_url = soup.find(class_="headerimage fade-in").get("src")
 
     featured_image_url
-    fullurl = url + "/" + featured_image_url
+    fullurl = "https://data-class-jpl-space.s3.amazonaws.com/JPL_Space" + "/" + featured_image_url
 
     #import pandas as pd
 
@@ -84,7 +85,7 @@ def scrape_info():
         "news_paragraph": news_p,
         "featured_image": fullurl,
         "hemisphere_imgs": hemisphere_image_urls,
-        "table": table
+        "table": html_table
     }
     
     # Close the browser after scraping

@@ -15,20 +15,19 @@
       <h1>Mission to Mars</h1>
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Get Data!</a></p>
     </div>
-    <img src="{{ mars.hemisphere_image_urls }}" alt="Mars">
     <h2>Latest Mars News</h2>
-    <h3>{{ news_title }}</h3>
-    <p>{{ news_p }}</p>
+    <h3>{{ mars.news_title }}</h3>
+    <p>{{ mars.news_p }}</p>
     <h2>Featured Mars Image</h2>
-    <img src="{{ featured_image }}" alt="JPL Mars">
-    <table="{{table.html}}
+    <img src="{{ mars.featured_image }}" alt="JPL Mars">
+    {{mars.table | safe}}
     <h2>Mars Hemispheres</h2>
-    <img src="{{ mars.hemisphere_image_urls }}" alt="Mars">
-    <img src="{{ mars.hemisphere_image_urls }}" alt="Mars">
-    <img src="{{ mars.hemisphere_image_urls }}" alt="Mars">
-    <img src="{{ mars.hemisphere_image_urls }}" alt="Mars">
+    {% for hemisphere in mars.hemisphere_imgs %}
+    <img src="{{ hemisphere_image_urls }}" alt="Mars">
+    <img src="{{ hemisphere_image_urls }}" alt="Mars">
+    <img src="{{ hemisphere_image_urls}}" alt="Mars">
+    <img src="{{ hemisphere_image_urls }}" alt="Mars">
+    {% endfor %}
   </div>
   </div>
 </body>
-
-</html>
