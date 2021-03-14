@@ -7,7 +7,7 @@ import pandas as pd
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
     path = {"executable_path": "chromedriver"}
-    browser = Browser("chrome", **path, headless=True)
+    browser = Browser("chrome", **path, headless=False)
     return browser
 
 
@@ -26,7 +26,7 @@ def scrape_info():
     news_title = titles[1].text.replace('\n', '')
     #news_title
 
-    paragraphs = soup.find_all(class_="article_teaser_body")
+    paragraphs = soup.find_all("div", class_="article_teaser_body")
     news_p = paragraphs[0].text.replace('\n', '')
     #news_p
 
@@ -89,7 +89,7 @@ def scrape_info():
     }
     
     # Close the browser after scraping
-    browser.quit()
+    #browser.quit()
 
     # Return results
     return mars_data
