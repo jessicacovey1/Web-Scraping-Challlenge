@@ -1,12 +1,13 @@
 from splinter import Browser
 from bs4 import BeautifulSoup as bs
 import time
-
+import requests
+import pandas as pd
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
-    executable_path = {"executable_path": "chromedriver.exe"}
-    return Browser("chrome", **executable_path, headless=False)
+    path = {"executable_path": "chromedriver"}
+    browser = Browser("chrome", **path, headless=True)
 
 
 def scrape_info():
@@ -22,12 +23,16 @@ def scrape_info():
  
     titles = soup.find_all("div", class_="content_title")
     news_title = titles[1].text.replace('\n', '')
-    news_title
+    #news_title
 
     paragraphs = soup.find_all(class_="article_teaser_body")
     news_p = paragraphs[0].text.replace('\n', '')
-    news_p
+    #news_p
 
+    from webdriver_manager.chrome import ChromeDriverManager
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)  
+    
     url = 'https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/index.html'
     browser.visit(url)
 
@@ -38,6 +43,8 @@ def scrape_info():
 
     featured_image_url
     fullurl = url + "/" + featured_image_url
+
+    #import pandas as pd
 
     url = 'https://space-facts.com/mars/'
 
@@ -51,7 +58,7 @@ def scrape_info():
 
     html_table.replace('\n', '')
     
-    df.to_html('table.html')
+    table = df.to_html('table.html')
 
     url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
     browser.visit(url)
@@ -69,8 +76,17 @@ def scrape_info():
         hemisphere_image_urls.append(current)
         browser.back()
 
-    print(hemisphere_image_urls)
+    #print(hemisphere_image_urls)
 
+        # Store data in a dictionary
+    mars_data = {
+        "news_title": news_title,
+        "news_paragraph": news_p,
+        "featured_image": fullurl,
+        "hemisphere_imgs": hemisphere_image_urls,
+        "table": table
+    }
+    
     # Close the browser after scraping
     browser.quit()
 
